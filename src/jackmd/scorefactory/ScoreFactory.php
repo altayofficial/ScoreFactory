@@ -138,7 +138,6 @@ class ScoreFactory {
 		self::removeScoreLine($player, $line, false);
 
 		$pk = new SetScorePacket();
-		$pk->type = $pk::TYPE_CHANGE;
 		$pk->entries[$line] = $entry;
 
 		$player->getNetworkSession()->sendDataPacket($pk);
@@ -160,7 +159,6 @@ class ScoreFactory {
 		$cache = self::getCache($player);
 
 		$pk = new SetScorePacket();
-		$pk->type = $pk::TYPE_CHANGE;
 		$pk->entries = $cache->getEntries();
 		$player->getNetworkSession()->sendDataPacket($pk);
 	}
@@ -176,13 +174,13 @@ class ScoreFactory {
 		$cache = self::getCache($player);
 		if ($removeFromCache) $cache->removeEntry($line);
 
-		$pk = new SetScorePacket();
-		$pk->type = SetScorePacket::TYPE_REMOVE;
-
 		$entry = new ScorePacketEntry();
+		$entry->type = ScorePacketEntry::TYPE_REMOVE;
 		$entry->objectiveName = $cache->getObjective();
 		$entry->score = $line;
 		$entry->scoreboardId = $line;
+
+		$pk = new SetScorePacket();
 		$pk->entries[] = $entry;
 
 		$player->getNetworkSession()->sendDataPacket($pk);
@@ -200,11 +198,14 @@ class ScoreFactory {
 		if ($removeFromCache) $cache->setEntries([]);
 
 		$pk = new SetScorePacket();
-		$pk->type = SetScorePacket::TYPE_REMOVE;
-
-		$entry = new ScorePacketEntry();
-		$entry->objectiveName = $cache->getObjective();
-		$pk->entries = $cache->getEntries();
+		foreach ($cache->getEntries() as $line => $cached) {
+			$entry = new ScorePacketEntry();
+			$entry->type = ScorePacketEntry::TYPE_REMOVE;
+			$entry->objectiveName = $cache->getObjective();
+			$entry->score = $cached->score;
+			$entry->scoreboardId = $cached->scoreboardId;
+			$pk->entries[$line] = $entry;
+		}
 
 		$player->getNetworkSession()->sendDataPacket($pk);
 	}

@@ -6,6 +6,8 @@
 
 ### A simple virion for making Scoreboards in Minecraft Bedrock Edition.
 
+This is the Altay fork of [Ifera/ScoreFactory](https://github.com/Ifera/ScoreFactory), kept in sync with Altay's network API.
+
 ScoreFactory was made with one simple goal in mind and that was to provide a **simple and easy to use API** for pocketmine developers to integrate scoreboards into their plugins. 
 This goal is now a reality and ScoreFactory v3.1.0+ has much more to offer than its competitors while still remaining extremely simple and modular.
 One small caveat is that no two plugins using ScoreFactory can work in conjunction properly. But then again, why would you need two plugins for adding scoreboards? :')

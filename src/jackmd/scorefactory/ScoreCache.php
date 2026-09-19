@@ -48,7 +48,7 @@ class ScoreCache {
 	/**
 	 * Indexed by (int) line -> ScorePacketEntry
 	 *
-	 * @return ScorePacketEntry[][]
+	 * @return ScorePacketEntry[]
 	 */
 	public function getEntries(): array {
 		return $this->entries;
